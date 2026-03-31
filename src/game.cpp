@@ -30,7 +30,9 @@ void Game::run() {
 }
 
 void Game::update() {
-    m_snake.update();
+    bool grow = check_collision_snake_food();
+    m_snake.update(grow);
+    if (grow) m_food.respawn();
 }
 
 void Game::handle_input() {
@@ -40,6 +42,23 @@ void Game::handle_input() {
 void Game::draw() {
     BeginDrawing();
     ClearBackground(BLACK);
-    m_renderer.draw_snake(m_snake.get_snake_body());
+    m_renderer.draw_food(m_food);
+    m_renderer.draw_snake(m_snake);
     EndDrawing();
+}
+
+bool Game::check_collision_snake_food() {
+    auto [x, y] = m_snake.get_body().front();
+    switch (m_snake.get_direction()) {
+        case SnakeDirection::Up: y -= 100;
+            break;
+        case SnakeDirection::Down: y += 100;
+            break;
+        case SnakeDirection::Left: x -= 100;
+            break;
+        case SnakeDirection::Right: x += 100;
+            break;
+    }
+    if (m_food.x == x && m_food.y == y) return true;
+    return false;
 }

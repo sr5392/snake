@@ -9,7 +9,8 @@ struct SnakeTile;
 
 class Renderer {
 public:
-    void draw_snake(const std::vector<SnakeTile>&);
+    void draw_snake(const Snake&);
+
     void draw_food(const Food&);
 };
 

@@ -20,12 +20,21 @@ enum class SnakeDirection {
 class Snake {
 public:
     Snake();
-    void update();
+
+    void update(bool);
+
     void grow();
+
     bool check_collision();
+
     void set_direction(SnakeDirection direction);
+
     SnakeDirection get_direction() const;
-    std::vector<SnakeTile>& get_snake_body();
+
+    std::vector<SnakeTile>& get_body();
+
+    const std::vector<SnakeTile>& get_body() const;
+
 private:
     std::vector<SnakeTile> m_snake;
     SnakeDirection m_direction;

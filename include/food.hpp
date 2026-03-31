@@ -5,6 +5,8 @@ struct Food {
     int x;
     int y;
 
+    Food();
+
     void respawn();
 };
 #endif //SNAKE_FOOD_HPP
