@@ -5,6 +5,7 @@
 #include "snake.hpp"
 
 class Renderer;
+class Food;
 
 class Game {
 public:
@@ -18,7 +19,15 @@ public:
 
     void handle_input();
 
-    bool check_collision_snake_food();
+    [[nodiscard]] bool check_collision_snake_head_food() const;
+
+    [[nodiscard]] bool check_collision_snake_body_food() const;
+
+    [[nodiscard]] bool check_collision_snake_wall() const;
+
+    [[nodiscard]] bool check_collision_snake_self() const;
+
+    void respawn_food();
 
 private:
     Renderer& m_renderer;
