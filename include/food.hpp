@@ -1,12 +1,19 @@
 #ifndef SNAKE_FOOD_HPP
 #define SNAKE_FOOD_HPP
 
-struct Food {
-    int x;
-    int y;
-
+class Food {
+public:
     Food();
 
-    void respawn();
+    void update();
+
+    [[nodiscard]] int get_x() const;
+
+    [[nodiscard]] int get_y() const;
+
+private:
+    int m_x;
+    int m_y;
 };
+
 #endif //SNAKE_FOOD_HPP

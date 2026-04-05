@@ -7,7 +7,7 @@ Snake::Snake() : m_direction{SnakeDirection::Right} {
     m_snake.emplace_back(SnakeTile{200, 400});
 }
 
-void Snake::update(bool grow) {
+void Snake::update() {
     SnakeTile new_head = m_snake.front();
     switch (m_direction) {
         case SnakeDirection::Left:
@@ -25,7 +25,6 @@ void Snake::update(bool grow) {
     }
 
     m_snake.insert(m_snake.begin(), new_head);
-    if (!grow) m_snake.pop_back();
 }
 
 std::vector<SnakeTile>& Snake::get_body() {

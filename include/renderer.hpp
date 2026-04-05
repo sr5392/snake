@@ -1,11 +1,8 @@
 #ifndef SNAKE_RENDERER_HPP
 #define SNAKE_RENDERER_HPP
-#include <vector>
-
-#include "food.hpp"
 
 class Snake;
-struct SnakeTile;
+class Food;
 
 class Renderer {
 public:
