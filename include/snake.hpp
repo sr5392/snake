@@ -15,23 +15,23 @@ enum class SnakeDirection {
     Left
 };
 
+class Food;
+
 class Snake {
 public:
     Snake();
 
-    void update();
-
-    void grow();
-
-    [[nodiscard]] bool check_collision() const;
+    void update(const Food& food);
 
     void set_direction(SnakeDirection direction);
 
     [[nodiscard]] SnakeDirection get_direction() const;
 
-    std::vector<SnakeTile>& get_body();
-
     [[nodiscard]] const std::vector<SnakeTile>& get_body() const;
+
+    [[nodiscard]] bool check_collision_self() const;
+
+    [[nodiscard]] bool check_collision_food(const Food&) const;
 
 private:
     std::vector<SnakeTile> m_snake;

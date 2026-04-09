@@ -1,4 +1,5 @@
 #include "snake.hpp"
+#include "food.hpp"
 
 Snake::Snake() : m_direction{SnakeDirection::Right} {
     m_snake.reserve(255);
@@ -7,8 +8,8 @@ Snake::Snake() : m_direction{SnakeDirection::Right} {
     m_snake.emplace_back(SnakeTile{200, 400});
 }
 
-void Snake::update() {
-    SnakeTile new_head = m_snake.front();
+void Snake::update(const Food& food) {
+    auto new_head = m_snake.front();
     switch (m_direction) {
         case SnakeDirection::Left:
             new_head.x -= 100;
@@ -25,10 +26,7 @@ void Snake::update() {
     }
 
     m_snake.insert(m_snake.begin(), new_head);
-}
-
-std::vector<SnakeTile>& Snake::get_body() {
-    return m_snake;
+    if (!check_collision_food(food)) m_snake.pop_back();
 }
 
 const std::vector<SnakeTile>& Snake::get_body() const {
@@ -47,4 +45,22 @@ void Snake::set_direction(SnakeDirection direction) {
 
 SnakeDirection Snake::get_direction() const {
     return m_direction;
+}
+
+bool Snake::check_collision_self() const {
+    const auto& head = m_snake.front();
+    const auto& body = m_snake;
+    for (auto i = body.begin() + 1; i != body.end(); ++i) {
+        const auto& current = *i;
+        if (current.x == head.x && current.y == head.y) {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool Snake::check_collision_food(const Food& food) const {
+    const auto& [x, y] = m_snake.front();
+    if (food.get_x() == x && food.get_y() == y) return true;
+    return false;
 }

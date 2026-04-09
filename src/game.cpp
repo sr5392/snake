@@ -1,7 +1,7 @@
 #include "game.hpp"
+#include "snake.hpp"
 #include "renderer.hpp"
 #include "raylib.h"
-#include <iostream>
 
 Game::Game(Renderer& renderer) : m_renderer(renderer) {
 };
@@ -26,22 +26,18 @@ void Game::run() {
             accumulatedTime -= interval;
         }
 
-        if (check_collision_snake_wall() || check_collision_snake_self()) break;
+        if (check_collision_snake_wall() || m_snake.check_collision_self()) break;
 
         draw();
     }
 }
 
 void Game::update() {
-    m_snake.update();
-    if (check_collision_snake_head_food()) {
-        while (check_collision_snake_body_food()) m_food.update();
-    } else {
-        m_snake.get_body().pop_back();
-    }
+    m_snake.update(m_food);
+    m_food.update(m_snake);
 }
 
-void Game::draw() {
+void Game::draw() const {
     BeginDrawing();
     ClearBackground(BLACK);
     m_renderer.draw_food(m_food);
@@ -50,15 +46,8 @@ void Game::draw() {
 }
 
 bool Game::check_collision_snake_head_food() const {
-    auto [head_x, head_y] = m_snake.get_body().front();
-    if (m_food.get_x() == head_x && m_food.get_y() == head_y) return true;
-    return false;
-}
-
-bool Game::check_collision_snake_body_food() const {
-    for (const auto& tile: m_snake.get_body()) {
-        if (m_food.get_x() == tile.x && m_food.get_y() == tile.y) return true;
-    }
+    const auto& [x, y] = m_snake.get_body().front();
+    if (m_food.get_x() == x && m_food.get_y() == y) return true;
     return false;
 }
 
@@ -66,15 +55,5 @@ bool Game::check_collision_snake_wall() const {
     const auto& [head_x, head_y] = m_snake.get_body().front();
     if (head_x >= 1500 || head_x < 0) return true;
     if (head_y >= 1500 || head_y < 0) return true;
-    return false;
-}
-
-bool Game::check_collision_snake_self() const {
-    const auto& head = m_snake.get_body().front();
-    const auto& body = m_snake.get_body();
-    for (auto i = body.begin() + 1; i != body.end(); ++i) {
-        const SnakeTile& current = *i;
-        if (current.x == head.x && current.y == head.y) return true;
-    }
     return false;
 }

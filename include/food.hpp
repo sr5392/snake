@@ -1,11 +1,15 @@
 #ifndef SNAKE_FOOD_HPP
 #define SNAKE_FOOD_HPP
 
+class Snake;
+
 class Food {
 public:
     Food();
 
-    void update();
+    void update(const Snake& snake);
+
+    [[nodiscard]] bool check_collision_snake(const Snake&) const;
 
     [[nodiscard]] int get_x() const;
 

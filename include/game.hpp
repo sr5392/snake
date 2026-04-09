@@ -15,19 +15,11 @@ public:
 
     void update();
 
-    void draw();
-
-    void handle_input();
+    void draw() const;
 
     [[nodiscard]] bool check_collision_snake_head_food() const;
 
-    [[nodiscard]] bool check_collision_snake_body_food() const;
-
     [[nodiscard]] bool check_collision_snake_wall() const;
-
-    [[nodiscard]] bool check_collision_snake_self() const;
-
-    void respawn_food();
 
 private:
     Renderer& m_renderer;

@@ -4,8 +4,8 @@
 #include "raylib.h"
 
 void Renderer::draw_snake(const Snake& snake) {
-    for (const auto& tile : snake.get_body()) {
-        DrawRectangle(tile.x, tile.y, 90, 90, WHITE);
+    for (const auto& [x, y] : snake.get_body()) {
+        DrawRectangle(x, y, 90, 90, WHITE);
     }
 }
 
